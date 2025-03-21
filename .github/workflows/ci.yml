@@ -9,7 +9,7 @@ on:
       - main
   create:
     branches:
-      - '**'
+      - "*"
 
 jobs:
   test:
@@ -18,6 +18,12 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
+
+      - name: Approve and Update Branch
+        run: |
+          git fetch origin
+          git checkout ${{ github.ref_name }}
+          git pull origin ${{ github.ref_name }}
 
       - name: Set up Python
         uses: actions/setup-python@v4
@@ -30,4 +36,4 @@ jobs:
           pip install pytest
 
       - name: Run Tests
-        run: pytest test_add.py
+        run: pytest test_app.py
